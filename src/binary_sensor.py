@@ -170,8 +170,12 @@ class LivescoreBinarySensor(Entity):
                     nextmatch["startdate"] + " " + nextmatch["Starttime"],
                     "%b %d, %Y %H:%M",
                 )
+        
+        if not self._matchon:
+            return
         nextmatch = await self.getnextmatch(self.team_id)
         result = await self.getliveresult(nextmatch["matchid"])
+        
         if result["finished"] == False:
             if result[nextmatch["homeaway"]] > self._score:
                 _LOGGER.info(
